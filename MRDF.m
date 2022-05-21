@@ -10,13 +10,13 @@ clc;clear;close;
 addpath('.\functions\');
 
 %% Before using the code, please set the following parameters according to your dataset
-path = 'D:\MRDF\'; % data path
+path = 'test data\'; % data path
 
 VNIR = [1,2,3,7];  % VNIR bands of the medium image
-SWIR = [9,10];     % SWIR bands of the medium image
+SWIR = [8,9];     % SWIR bands of the medium image
 
-coarse = readgeoraster([path 'Medium']); % Open a Medium resolution image
-fine = readgeoraster([path 'Fine']);     % Open a Fine resolution image
+coarse = double(readgeoraster([path 'Medium'])); % Open a Medium resolution image
+fine = double(readgeoraster([path 'Fine']));     % Open a Fine resolution image
 OutName = [path 'MRDF.tiff'];            % output file name
 
 mw = 5;          % size of moving window for searching similar pixels
@@ -48,9 +48,10 @@ parfor i = 1:ns
         [EuDisS,indB] = sort(EuDis);
         indB = indB(1:num);
 
-        weight = EuDisS(1:num); weight = 1./weight/sum(1./weight);
+        weight = EuDisS(1:num)+1e-5; weight = 1./weight/sum(1./weight);
         similarP = (NP(indB,:)'*weight)';
         coefficient=[similarP(1,VNIR);ones(1,nb)]'\center;
+        index = find(isnan(coefficient));
 
         F = similarP(1,:)*coefficient(1)+coefficient(2);
         PreFine(i,j,:) = F;
