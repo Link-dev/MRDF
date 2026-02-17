@@ -1,6 +1,6 @@
 ## Misregistration resistant data fusion approach
 This is the code for MRDF produced by Junxiong Zhou.
-Email: zhou1743@umn.edu
+Email: junxiong.zhou@outlook.com
 Copyright belongs to Junxiong Zhou.
 
 When using the code, please cite the following paper:  
